@@ -4,16 +4,25 @@ from __future__ import unicode_literals
 
 from django.shortcuts import render
 from django.http import HttpResponse
+from ..models import Student
 
 # Create your views here.
 
 # Views for Students
 
 def students_list(request):
-    students = (
-        {'id': 1, 'first_name': u'Максим', 'last_name': u'Рудюк', 'ticket': 2587, 'image': 'img/max.jpg'},
-        {'id': 2, 'first_name': u'Ананстасія', 'last_name': u'Перевалова', 'ticket': 2874, 'image': 'img/default-user.png'},
-        {'id': 3, 'first_name': u'Віталій', 'last_name': u'Нікітчин', 'ticket': 2174, 'image': 'img/default-user.png'},)
+    students = Student.objects.all()
+
+    # Order students list
+    order_by = request.GET.get('order_by', '')
+    reverse = request.GET.get('reverse', '')
+
+    if order_by in ('last_name', 'first_name', 'ticket', 'id'):
+        students = students.order_by(order_by)
+        if reverse == '1':
+            students = students.reverse()
+
+
     return render(request, 'students/students_list.html', {'students': students})
 
 def students_add(request):
