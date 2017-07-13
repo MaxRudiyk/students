@@ -1,2 +1,1 @@
-"Sort for first colum" -
-"Defaul sort for last name" - 
+"посторінкова навігація"
