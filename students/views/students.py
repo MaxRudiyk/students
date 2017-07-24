@@ -3,8 +3,10 @@
 from __future__ import unicode_literals
 
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect, Http404, JsonResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.core import serializers
+from django.template.loader import render_to_string
 
 from ..models import Student
 
@@ -34,11 +36,8 @@ def students_list(request):
     except EmptyPage:
         students = paginator.page(paginator.num_pages)
 
-        
-
-
-
     return render(request, 'students/students_list.html', {'students': students})
+
 
 def students_add(request):
     return HttpResponse('<h1>Student Add Form</h1>')

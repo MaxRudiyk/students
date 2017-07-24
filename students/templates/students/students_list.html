@@ -9,8 +9,8 @@
 <a class="btn btn-primary" href="{% url 'students_add' %}">Додати Студента</a>
 
 <!-- Student List -->
-<table class="table table-hover table-striped">
-    {% with order_by=request.GET.order_by reverse=request.GET.reverse status_number=request.GET.status_number%}
+<table class="table table-hover table-striped students-table">
+    {% with order_by=request.GET.order_by reverse=request.GET.reverse%}
     <thead>
         <tr>
             <th>
@@ -51,7 +51,7 @@
     <tbody>
         {% for  student in students %}
         <tr>
-            <td>
+            <td class='pk'>
                 {% if request.GET.reverse == '1' and request.GET.order_by == 'id' %}
                     {{ forloop.revcounter }}
                 {% else %}

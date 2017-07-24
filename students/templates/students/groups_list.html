@@ -9,62 +9,72 @@
 <a class="btn btn-primary" href="{% url 'groups_add' %}">Додати Групу</a>
 
 <!-- Student List -->
+{% if groups_list %}
 <table class="table table-hover table-striped">
+    {% with order_by=request.GET.order_by reverse=request.GET.reverse%}
     <thead>
         <tr>
-            <th><a href="#">№</a></th>
-            <th><a href="#">Назва</a></th>
-            <th><a href="#">Староста</a></th></th>
+            <th>
+                <a href="{% url 'groups' %}?order_by=id{% if order_by == 'id' and reverse != '1' %}&amp;reverse=1{% endif %}">№
+                {% if  order_by == 'id' and reverse != '1' %}&uarr;
+                {% elif order_by == 'id' and reverse == '1' %}&darr;
+                {% endif %}    
+                </a>
+            </th>
+            <th>
+                <a href="{% url 'groups' %}?order_by=title{% if order_by == 'title' and reverse != '1' %}&amp;reverse=1{% endif %}">Назва
+                {% if  order_by == 'title' and reverse != '1' %}&uarr;
+                {% elif order_by == '' and reverse != '1' %}&uarr;
+                {% elif order_by == 'title' and reverse == '1' %}&darr;
+                {% endif %}    
+                </a>
+            </th>
+            <th>
+                <a href="{% url 'groups' %}?order_by=leader{% if order_by == 'leader' and reverse != '1' %}&amp;reverse=1{% endif %}">Староста
+                {% if  order_by == 'leader' and reverse != '1' %}&uarr;
+                {% elif order_by == 'leader' and reverse == '1' %}&darr;
+                {% endif %}    
+                </a>
+            </th>
             <th>Дії</th>
         </tr>   
     </thead>
+    {% endwith %}
     <tbody>
-        <tr>
-            <td>1</td>
-            <td><a title="Редагувати" href="{% url 'groups_edit' 1 %}">АТ-22</a></td>
-            <td><a title="Редагувати" href="{% url 'students_edit' 1 %}">Рудюк Максим</a></td>
+    {% for group in groups_list %}
+    <tr>
+        <td>
+            {% if request.GET.reverse == '1' and request.GET.order_by == 'id' %}
+                {{ forloop.revcounter }}
+            {% else %}
+                {{ forloop.counter }}
+            {% endif %}
+        </td>
+        <td><a title="Редагувати" href="{% url 'groups_edit' group.id %}">{{ group.title }}</a></td>
+        {% if group.leader %}
             <td>
-                <div class="dropdown">
-                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Дія <span class="caret"></span></button>
-                    <ul class="dropdown-menu" role="menu">
-                        <li role="presentation"><a href="journal/" role="menuitem" tabindex="-1">Відвідування</a></li>
-                        <li role="presentation"><a href="{% url 'groups_edit' 1 %}" role="menuitem" tabindex="-1">Редагувати</a></li>
-                        <li role="presentation"><a href="{% url 'groups_delete' 1 %}" role="menuitem" tabindex="-1">Видалити</a></li>
-                    </ul>
-                </div>
+                <a title="Редагувати" href="{% url 'groups_edit' group.leader.id %}">{{ group.leader }}</a>
             </td>
-        </tr>
-        <tr>
-            <td>2</td>
-            <td><a title="Редагувати" href="{% url 'groups_edit' 2 %}">ІТАК-23</a></td>
-            <td><a title="Редагувати" href="{% url 'students_edit' 2 %}">Перевалова Анастасія</a></td>
+        {% else %}
             <td>
-                <div class="dropdown">
-                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Дія <span class="caret"></span></button>
-                    <ul class="dropdown-menu" role="menu">
-                        <li role="presentation"><a href="journal/" role="menuitem" tabindex="-1">Відвідування</a></li>
-                        <li role="presentation"><a href="{% url 'groups_edit' 2 %}" role="menuitem" tabindex="-1">Редагувати</a></li>
-                        <li role="presentation"><a href="{% url 'groups_delete' 2 %}" role="menuitem" tabindex="-1">Видалити</a></li>
-                    </ul>
-                </div>
+                <a title="Редагувати" href="{% url 'groups_edit' group.id %}">Додати старосту</a>
             </td>
-        </tr>
-        <tr>
-            <td>3</td>
-            <td><a title="Редагувати" href="{% url 'groups_edit' 3 %}">ІП-2</a></td>
-            <td><a title="Редагувати" href="{% url 'students_edit' 3 %}">Нікітчин Віталій</a></td>
-            <td>
-                <div class="dropdown">
-                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Дія <span class="caret"></span></button>
-                    <ul class="dropdown-menu" role="menu">
-                        <li role="presentation"><a href="journal/" role="menuitem" tabindex="-1">Відвідування</a></li>
-                        <li role="presentation"><a href="{% url 'groups_edit' 3 %}" role="menuitem" tabindex="-1">Редагувати</a></li>
-                        <li role="presentation"><a href="{% url 'students_edit' 3 %}" role="menuitem" tabindex="-1">Видалити</a></li>
-                    </ul>
-                </div>
-            </td>
-        </tr>   
+        {% endif %}
+        <td>
+            <div class="dropdown">
+                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Дія <span class="caret"></span></button>
+                <ul class="dropdown-menu" role="menu">
+                    <li role="presentation"><a href="{% url 'journal' %}" role="menuitem" tabindex="-1">Відвідування</a></li>
+                    <li role="presentation"><a href="{% url 'groups_edit' group.id %}" role="menuitem" tabindex="-1">Редагувати</a></li>
+                    <li role="presentation"><a href="{% url 'groups_delete' group.id %}" role="menuitem" tabindex="-1">Видалити</a></li>
+                </ul>
+            </div>
+        </td>
+    </tr>         
+    {% endfor %}
     </tbody>
 </table>
+{% else %} <h1>Груп ще не додано</h1>
+{% endif %}
 {% include "students/pagination.html" %}
 {% endblock content %}

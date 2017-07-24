@@ -3,5 +3,5 @@
 /path/to/*.pyc
 
 #Igonre moduls
-db.py
+db_settings.py
 email.py
