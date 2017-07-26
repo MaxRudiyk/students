@@ -1,0 +1,52 @@
+{% extends "students/base.html" %}
+
+{% load static from staticfiles %}
+
+{% block meta_title %}Іспити{% endblock meta_title %} 
+{% block title %}Список Іспитів{% endblock title %}
+
+{% block content %}
+<!-- Add Student Button -->
+<a class="btn btn-primary" href="{% url 'exams_add' %}">Додати Іспит</a>
+
+<!-- Exams List -->
+{% if exams_list %}
+<table class="table table-hover table-striped">
+    <thead>
+        <tr>
+            <th><a href="#">№</a></th>
+            <th><a href="#">Назва Предмету</a></th>
+            <th><a href="#">Викладач</a></th>
+            <th><a href="#">Група</a></th>
+            <th><a href="#">Дата та час</a></th>
+            <th>Дії</th>
+        </tr>   
+    </thead>
+    <tbody>
+        {% for exam in exams_list %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td><a title="Редагувати" href="#">{{ exam.subject }}</a></td>
+            <td><a title="Редагувати" href="#">{{ exam.teacher_name }}</a></td>
+            <td><a title="Редагувати" href="#">{{ exam.exams_group }}</a></td>
+            <td><a title="Редагувати" href="#">{{ exam.date_of_exam }}</a></td>
+            <td>
+                <div class="dropdown">
+                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Дія <span class="caret"></span></button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li role="presentation"><a href="" role="menuitem" tabindex="-1">Редагувати</a></li>
+                        <li role="presentation"><a href="" role="menuitem" tabindex="-1">Видалити</a></li>
+                        <li role="presentation"><a href="{% url 'exams_result' exam.exams_group exam.subject%}" role="menuitem" tabindex="-1">Результати</a></li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<h1>Іспитів не додано</h1>
+{% endif %} 
+{% endblock content %} 
+
+

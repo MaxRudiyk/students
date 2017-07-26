@@ -30,3 +30,15 @@
 {% endwith %}
 {% endif %}
 
+<!--{% if  exams.has_other_pages%}
+<nav>
+    <ul class="pagination">
+        <li><a href="{% url 'exams' %}?page=1">&laquo;</a></li>
+        {% for  p in exams.paginator.page_range %}
+        <li {% if exam.number == p %}class='active'{% endif %}><a href="{% url 'exams' %}?page={{ p }}">{{ p }}</a></li>
+        {% endfor %}
+        <li><a href="{% url 'exams' %}?page={{ exams.paginator.num_pages }}">&raquo;</a></li>
+    </ul>
+</nav>
+{% endif %}-->
+

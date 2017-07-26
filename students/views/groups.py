@@ -16,8 +16,8 @@ def groups_list(request):
     groups = Group.objects.all()
 
     # Order groups list
-    order_by = request.GET.get('order_by', '')
-    reverse = request.GET.get('reverse', '')
+    order_by = request.GET.get('order_by', '') # Витягуємо параметр order_by з GET словника
+    reverse = request.GET.get('reverse', '') # Витягуємо параметр reverse з GET словника
 
     if order_by in ('title', 'leader', 'id'):
         groups = groups.order_by(order_by)
@@ -27,7 +27,7 @@ def groups_list(request):
     # Paginate students
     if groups:
         paginator = Paginator(groups, 3)
-        page = request.GET.get('page')
+        page = request.GET.get('page') # Витягуємо параметр page з GET словника
         try: 
             groups = paginator.page(page)
         except PageNotAnInteger:

@@ -9,6 +9,7 @@
 <a class="btn btn-primary" href="{% url 'students_add' %}">Додати Студента</a>
 
 <!-- Student List -->
+{% if students %}
 <table class="table table-hover table-striped students-table">
     {% with order_by=request.GET.order_by reverse=request.GET.reverse%}
     <thead>
@@ -80,6 +81,9 @@
         {% endfor %}
     </tbody>
 </table>
+{% else %}
+<h1>Студентів не додано </h1>
+{% endif %}
 {% include "students/pagination.html" %}
 {% endblock content %} 
 

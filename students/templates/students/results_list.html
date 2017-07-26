@@ -1,0 +1,44 @@
+{% extends "students/base.html" %}
+
+{% load static from staticfiles %}
+
+{% block meta_title %}Результати{% endblock meta_title %} 
+{% block title %}Результати іспитів Іспитів{% endblock title %}
+
+{% block content %}
+<!-- Results List -->
+{% if results_list %}
+<table class="table table-hover table-striped">
+    <thead>
+        <tr>
+            <th><a href="#">№</a></th>
+            <th><a href="#">Студент</a></th>
+            <th><a href="#">Оцінка</a></th>
+            <th>Дії</th>
+        </tr>   
+    </thead>
+    <tbody>
+        {% for result in results_list %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td><a title="Редагувати" href="#">{{ result.students}}</a></td>
+            <td><a title="Редагувати" href="#">{{ result.hps }}</a></td>
+            <td>
+                <div class="dropdown">
+                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Дія <span class="caret"></span></button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li role="presentation"><a href="" role="menuitem" tabindex="-1">Редагувати</a></li>
+                        <li role="presentation"><a href="" role="menuitem" tabindex="-1">Видалити</a></li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<h1>Результатів не додано</h1>
+{% endif %} 
+{% endblock content %} 
+
+

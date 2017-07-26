@@ -18,8 +18,8 @@ def students_list(request):
     students = Student.objects.all()
 
     # Order students list
-    order_by = request.GET.get('order_by', '')
-    reverse = request.GET.get('reverse', '')
+    order_by = request.GET.get('order_by', '') # Витягуємо параметр order_by з GET словника
+    reverse = request.GET.get('reverse', '') # Витягуємо параметр reverse з GET словника
 
     if order_by in ('last_name', 'first_name', 'ticket', 'id'):
         students = students.order_by(order_by)
@@ -28,7 +28,7 @@ def students_list(request):
 
     # Paginate students
     paginator = Paginator(students, 3)
-    page = request.GET.get('page')
+    page = request.GET.get('page') # Витягуємо параметр page з GET словника
     try: 
         students = paginator.page(page)
     except PageNotAnInteger:
