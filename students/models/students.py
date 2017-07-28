@@ -29,7 +29,7 @@ class Student(models.Model):
         verbose_name=u'По-батькові', 
         default='')
 
-    students_group = models.ForeignKey('Group',
+    student_group = models.ForeignKey('Group',
         verbose_name=u'Група',
         blank=False,
         null=True,

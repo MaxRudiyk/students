@@ -3,18 +3,20 @@
 from __future__ import unicode_literals
 
 from django.shortcuts import render
+from django.core.urlresolvers import reverse
 from django.http import HttpResponse, HttpResponseRedirect, Http404, JsonResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core import serializers
 from django.template.loader import render_to_string
 
-from ..models import Student
+from ..models import Student, Group
 
 # Create your views here.
 
 # Views for Students
 
 def students_list(request):
+
     students = Student.objects.all()
 
     # Order students list
@@ -40,7 +42,40 @@ def students_list(request):
 
 
 def students_add(request):
-    return HttpResponse('<h1>Student Add Form</h1>')
+
+    groups_list = Group.objects.all().order_by('title')
+
+    if request.method == 'POST':
+
+        if request.POST.get('add_button') is not None:
+            
+            errors = {}
+
+            if not errors:
+                student = Student(
+                    first_name=request.POST['first_name'],
+                    last_name=request.POST['last_name'],
+                    middle_name=request.POST['middle_name'],
+                    birthday=request.POST['birthday'],
+                    ticket=request.POST['ticket'],
+                    student_group=groups_list.get(pk=request.POST['student_group']),
+                    photo=request.FILES['photo'],)
+
+                student.save()
+
+                return HttpResponseRedirect(reverse('home'))
+
+            else:
+
+                return render(request, 'students/students_add.html', {'groups_list': groups_list, 'errors': errors})
+
+        elif request.POST.get('cancel_button') is not None:
+
+            return HttpResponseRedirect(reverse('home'))
+
+    else: 
+
+        return render(request, 'students/students_add.html', {'groups_list': groups_list})
 
 def students_edit(request, sid):
     return HttpResponse('<h1>Edit Student %s</h1>' % sid)
