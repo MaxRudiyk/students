@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'crispy_forms',
     'students',
 ]
 
@@ -117,4 +118,18 @@ STATIC_URL = '/static/'
 PORTAL_URL = ''
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, '..', 'media')
+
+#email settings
+ADMIN_EMAIL = 'maxrudiyk@gmail.com'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = '465'
+EMAIL_HOST_USER = 'maxrudiyk@gmail.com'
+try:
+    from .email import EMAIL_HOST_PASSWORD
+except Exception:
+    pass
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True
+
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
 

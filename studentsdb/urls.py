@@ -13,9 +13,9 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url
+from django.conf.urls import url, include
 from django.contrib import admin
-from students.views import students, groups, journal, exams
+from students.views import students, groups, journal, exams, contact_admin
 from .settings import MEDIA_ROOT, DEBUG
 from django.views.static import serve
 
@@ -42,7 +42,11 @@ urlpatterns = [
     # Journal urls
     url(r'^journal/$', journal.journal_list, name='journal'),
 
+    url(r'^contact-admin/$', contact_admin.contact_admin, name='contact_admin'),
+
     url(r'^admin/', admin.site.urls),
+
+    #url(r'^contact/', include('contact_form.urls')),
 ]   
 
 if DEBUG:

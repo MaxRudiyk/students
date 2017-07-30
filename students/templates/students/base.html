@@ -40,6 +40,7 @@
                         <li role="presentation" {% url 'journal' as journal %}{% if journal in request.path %}class="active"{% endif %}><a href="{% url 'journal' %}">Відвідування</a></li>
                         <li role="presentation" {% url 'groups' as groups %}{% if groups in request.path %}class="active"{% endif %}><a href="{% url 'groups' %}">Групи</a></li>
                         <li role="presentation" {% url 'exams' as exams %}{% if exams in request.path %}class="active"{% endif %}><a href="{% url 'exams' %}">Іспити</a></li>
+                        <li role="presentation" {% url 'contact_admin' as contact_admin %}{% if contact_admin in request.path %}class="active"{% endif %}><a href="{% url 'contact_admin' %}">Контакт</a></li>
                     </ul>
                 </div>
             </div>
