@@ -8,8 +8,9 @@ from django.http import HttpResponse, HttpResponseRedirect, Http404, JsonRespons
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core import serializers
 from django.template.loader import render_to_string
-
+from django.contrib import messages
 from ..models import Student, Group
+from datetime import datetime
 
 # Create your views here.
 
@@ -43,34 +44,73 @@ def students_list(request):
 
 def students_add(request):
 
-    groups_list = Group.objects.all().order_by('title')
+    groups_list = Group.objects.all().order_by('title') 
 
-    if request.method == 'POST':
+    if request.method == 'POST': # Was form posted
 
-        if request.POST.get('add_button') is not None:
+        if request.POST.get('add_button') is not None: # Was form add btn cliked
             
-            errors = {}
+            errors = {} # errors collection
+
+            data = {'middle_name': request.POST.get('middle_name'), 'notes': request.POST.get('notes')}
+
+            # validate user input 
+            first_name = request.POST.get('first_name', '').strip()
+            if not first_name:
+                errors['first_name'] = u"Ім'я є обов'язковим"
+            else:
+                data['first_name'] = first_name 
+
+            last_name = request.POST.get('last_name', '').strip()
+            if not last_name:
+                errors['last_name'] = u"Прізвище є обов'язковим"
+            else:
+                data['last_name'] = last_name
+
+            birthday = request.POST.get('birthday', '').strip()
+            if not birthday:
+                errors['birthday'] = u"Дата народження є обов'язковою"
+            else:
+                data['birthday'] = birthday
+
+            ticket = request.POST.get('ticket', '').strip()
+            if not ticket:
+                errors['ticket'] = u"Номер білета є обов'язковим"
+            else:
+                try:
+                    datetime.strptime(birthday, '%Y-%m-%d')
+                except Exception:
+                    errors['birthday'] = u"Введіть коретний формат дати"
+                data['ticket'] = ticket    
+
+            student_group = request.POST.get('student_group', '').strip()
+            if not student_group:
+                errors['student_group'] = u"Ім'я є обов'язковим"
+            else:
+                groups = groups_list.filter(pk=student_group)
+                if len(groups) != 1:
+                    errors['student_group'] = u"Оберіть коректну групу"
+                else:
+                    data['student_group'] = groups[0]
+
+            photo = request.FILES.get('photo')
+            if photo:
+                data['photo'] = photo
+
 
             if not errors:
-                student = Student(
-                    first_name=request.POST['first_name'],
-                    last_name=request.POST['last_name'],
-                    middle_name=request.POST['middle_name'],
-                    birthday=request.POST['birthday'],
-                    ticket=request.POST['ticket'],
-                    student_group=groups_list.get(pk=request.POST['student_group']),
-                    photo=request.FILES['photo'],)
-
-                student.save()
-
+                # Create student object
+                student = Student(**data)
+                student.save() # save to db
+                messages.success(request, 'Студента %s успішно додано' % student)
                 return HttpResponseRedirect(reverse('home'))
 
             else:
-
+                messages.warning(request, 'Виправте наступні помилки')
                 return render(request, 'students/students_add.html', {'groups_list': groups_list, 'errors': errors})
 
         elif request.POST.get('cancel_button') is not None:
-
+            messages.warning(request, 'Додавання студента скасовано!')
             return HttpResponseRedirect(reverse('home'))
 
     else: 
