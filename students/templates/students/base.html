@@ -54,6 +54,9 @@
                     {% for message in messages %}
                     <div class="alert alert-{{ message.tags }}" role='alert'>{{ message }}</div>   
                     {% endfor %}   
+                    {% endif %}
+                    {% if request.GET.status_message %}
+                    <div class="alert alert-warning" role='alert'>{{ request.GET.status_message }}</div>          
                     {% endif %}      
                     {% endblock status_message %} 
                     <h2>{% block title %}{% endblock title %}</h2>

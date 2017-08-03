@@ -11,6 +11,7 @@ from django.template.loader import render_to_string
 from django.contrib import messages
 from ..models import Student, Group
 from datetime import datetime
+from django.views.generic import UpdateView
 
 # Create your views here.
 
@@ -116,6 +117,23 @@ def students_add(request):
     else: 
 
         return render(request, 'students/students_add.html', {'groups_list': groups_list})
+
+class StudentUpdateView(UpdateView):
+    model = Student
+    template_name = 'students/students_edit.html'
+    fields = '__all__'
+
+    def get_success_url(self):
+        return reverse('home')
+
+    def post(self, request, *args, **kwargs):
+
+        if request.POST.get('cancel_button'):
+            messages.warning(request, 'Редагування студента відмінено')
+            return HttpResponseRedirect(reverse('home'))
+        else:
+            messages.success(request, 'Студента успішно збережено')
+            return super(StudentUpdateView, self).post(request, *args, **kwargs)
 
 def students_edit(request, sid):
     return HttpResponse('<h1>Edit Student %s</h1>' % sid)

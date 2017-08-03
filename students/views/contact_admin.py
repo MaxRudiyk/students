@@ -5,11 +5,12 @@ from __future__ import unicode_literals
 from django.shortcuts import render
 from django import forms
 from django.core.mail import send_mail
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 from django.contrib import messages
+from django.views.generic.edit import FormView
 
 from studentsdb.settings import ADMIN_EMAIL
 
@@ -39,33 +40,29 @@ class ContactForm(forms.Form):
     subject = forms.CharField(label=u'Заголовок листа', max_length=128)
     message = forms.CharField(label=u'Текст повідомлення', max_length=2560, widget=forms.Textarea)
 
-def contact_admin(request):
 
-    if request.method == 'POST' :
+class ContactView(FormView):
+    template_name = 'contact_admin/form.html'
+    form_class = ContactForm
 
-        form = ContactForm(request.POST)
+    def form_valid(self, form):
+        subject = form.cleaned_data['subject']
+        from_email = form.cleaned_data['from_email']
+        message = form.cleaned_data['message'] + ' від ' + from_email
 
-        if form.is_valid():
-            subject = form.cleaned_data['subject']
-            from_email = form.cleaned_data['from_email']
-            message = form.cleaned_data['message'] + ' від ' + from_email
+        send_mail(subject, message, from_email, [ADMIN_EMAIL])
+        messages.success(self.request, 'Повідомлення успішно надіслане')
+        return super(ContactView, self).form_valid(form)
 
-            try:
-                send_mail(subject, message, from_email, [ADMIN_EMAIL])
-            except Exception:
-                messages.warning(request, 'Під час відправки листа виникла непередбачувана помилка. Спробуйте скористатися даною формою пізніше')
-            else:
-                messages.success(request, 'Повідомлення успішно надіслане')
+    def form_invalid(self, form):
+        return super(ContactView, self).form_invalid(form)
 
-            return HttpResponseRedirect(reverse('contact_admin'))
+    def get_success_url(self):
+        return reverse('contact_admin')
 
-        else:
-            messages.warning(request, 'Будь-ласка виправте наступні помилки')
 
-    else:
-        form = ContactForm()
 
-    return render(request,'contact_admin/form.html', {'form': form}) 
+
 
 
 
