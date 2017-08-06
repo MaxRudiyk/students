@@ -3,8 +3,8 @@
 {% load static from staticfiles %}
 {% load crispy_forms_tags %}
 
-{% block meta_title %}Редагувати Студента{% endblock meta_title %} 
-{% block title %}Редагувати Студента{% endblock title %}
+{% block meta_title %}{{block.super}}{% endblock meta_title %} 
+{% block title %}{{block.super}}{% endblock title %}
 {% block status_message %}
 {{ block.super }}
 {% endblock status_message %}

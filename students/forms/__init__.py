@@ -1,1 +1,2 @@
-from .students import StudentEditForm
+from .students import StudentUpdateForm
+from .students import StudentAddForm
