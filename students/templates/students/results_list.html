@@ -21,8 +21,8 @@
         {% for result in results_list %}
         <tr>
             <td>{{ forloop.counter }}</td>
-            <td><a title="Редагувати" href="#">{{ result.students}}</a></td>
-            <td><a title="Редагувати" href="#">{{ result.hps }}</a></td>
+            <td>{{ result.students}}</td>
+            <td>{{ result.hps }}</td>
             <td>
                 <div class="dropdown">
                     <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Дія <span class="caret"></span></button>

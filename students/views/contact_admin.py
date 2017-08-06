@@ -20,7 +20,7 @@ class ContactForm(forms.Form):
 
         super(ContactForm, self).__init__(*args, **kwargs)
 
-        self.helper = FormHelper()
+        self.helper = FormHelper(self)
 
         self.helper.form_class = 'form-horizontal'
         self.helper.form_method = 'post'

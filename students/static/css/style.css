@@ -35,14 +35,6 @@ h1, h2, h3, h4, h5, h6 {
     text-decoration: none;
 }
 
-/*Students-list*/
-/*.load-more {
-    position: relative; 
-    top: 15px; 
-    text-decoration: none;
-    color: #337AB7;
-}*/
-
 /*Form styles (students_add)*/
 textarea, select, input {
     max-width: 300px;

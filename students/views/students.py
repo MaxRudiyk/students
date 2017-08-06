@@ -12,6 +12,8 @@ from django.contrib import messages
 from ..models import Student, Group
 from datetime import datetime
 from django.views.generic import UpdateView
+from django.views.generic.edit import FormView
+from ..forms import StudentEditForm
 
 # Create your views here.
 
@@ -140,3 +142,20 @@ def students_edit(request, sid):
 
 def students_delete(request, sid):
     return HttpResponse('<h1>Delete Student %s</h1>' % sid)
+
+class StudentEditView(UpdateView):
+    template_name = 'students/students_edit.html'
+    form_class = StudentEditForm
+    model = Student
+
+    def get_success_url(self):
+        return reverse('home')
+
+    def post(self, request, *args, **kwargs):
+
+        if request.POST.get('cancel_button'):
+            messages.warning(request, 'Редагування студента відмінено')
+            return HttpResponseRedirect(reverse('home'))
+        else:
+            messages.success(request, 'Студента успішно збережено')
+            return super(StudentEditView, self).post(request, *args, **kwargs)
