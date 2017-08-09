@@ -27,5 +27,5 @@ class Result_exam(models.Model):
         verbose_name=u"Оцінка",
         null=True )
 
-    def __unicode__(self):
+    def __str__(self):
         return u"%s (%s)" % (self.students, self.students.students_group)
