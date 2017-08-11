@@ -75,7 +75,7 @@ class StudentDeleteView(DeleteView):
             messages.warning(request, 'Видалення студента відмінено')
             return HttpResponseRedirect(reverse('home'))
         else:
-            messages.error(self.request, "Студента успішно видалено")
+            messages.success(self.request, "Студента успішно видалено")
             return super(StudentDeleteView, self).post(request, *args, **kwargs)
 
 

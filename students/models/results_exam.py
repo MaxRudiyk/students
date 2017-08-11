@@ -28,4 +28,4 @@ class Result_exam(models.Model):
         null=True )
 
     def __str__(self):
-        return u"%s (%s)" % (self.students, self.students.students_group)
+        return u"%s (%s)" % (self.students, self.students.student_group)
