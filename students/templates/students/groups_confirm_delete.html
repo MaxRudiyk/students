@@ -9,9 +9,9 @@
 {{ block.super }}
 {% endblock status_message %}
 {% block content %}
-<form action="{% url 'groups_delete' group.id %}" method="post">
+<form action="{% url 'groups_delete' object.id %}" method="post">
 	{% csrf_token %}
-	<h3>Ви дійсно бажаєте видалити групу "{{ group }}"</h3>
+	<h3>Ви дійсно бажаєте видалити групу "{{ object }}"</h3>
 	<input type="submit" value="Так", name="delete_button", class='btn btn-danger'>
 	<input type="submit" value="Ні", name='cancel_button', class='btn btn-default'>
 	<br><br>
