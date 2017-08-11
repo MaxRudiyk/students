@@ -95,3 +95,24 @@ class StudentUpdateView(UpdateView):
         else:
             messages.success(request, 'Студента успішно збережено')
             return super(StudentUpdateView, self).post(request, *args, **kwargs)
+
+
+def student_delete(request, sid):
+
+    student = Student.objects.get(pk=sid)
+
+    if request.POST.get('cancel_button'):
+        messages.warning(request, 'Видалення студента скасовано')
+        return HttpResponseRedirect(reverse('home'))
+
+    elif request.POST.get('delete_button'):
+        
+        try:
+            student.delete()
+            messages.success(request, 'Студента успішно видалено')
+        except Exception:
+            messages.warning(request, 'Виникла непередбачувана помилка')
+
+        return HttpResponseRedirect(reverse('home'))
+
+    return render(request, 'students/students_confirm_delete.html', {'student': student})

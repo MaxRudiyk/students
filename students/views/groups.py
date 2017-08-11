@@ -83,8 +83,11 @@ def groups_delete(request, gid):
             messages.error(request, "Групу неможливо видалити коли в ній присутній хоча б один студент")
             return HttpResponseRedirect(reverse('groups'))
         else:
-            messages.success(request, "Групу успішно видалено")
-            group.delete()
-            return HttpResponseRedirect(reverse('groups'))
+            try:
+                group.delete()
+                messages.success(request, "Групу успішно видалено")
+            except Exception:
+                messages.warning(request, 'Виникла непередбачувана помилка')
+        return HttpResponseRedirect(reverse('groups'))
 
     return render(request, 'students/groups_confirm_delete.html', {'group': group})
