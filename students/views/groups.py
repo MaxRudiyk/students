@@ -5,11 +5,12 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect, Http404, JsonResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core import serializers
-from ..models import Group, Student
 from django.views.generic import UpdateView, CreateView, DeleteView
 from django.contrib import messages
 from django.core.urlresolvers import reverse
 
+from ..models import Group, Student
+from ..forms import GroupAddForm, GroupUpdateForm
 # Create your views here.
 
 # Views for Groups
@@ -43,11 +44,39 @@ def groups_list(request):
         
     return render(request, 'students/groups_list.html', {'groups_list': groups})
 
-def groups_add(request):
-    return HttpResponse('<h1>Group Add Form</h1>')
+class GroupAddView(CreateView):
+    template_name = 'students/universal_form.html'
+    form_class = GroupAddForm
+    model = Group
 
-def groups_edit(request, gid):
-    return HttpResponse('<h1>Edit Group %s</h1>' % gid)
+    def get_success_url(self):
+        return reverse('groups')
+
+    def post(self, request, *args, **kwargs):
+
+        if request.POST.get('cancel_button'):
+            messages.warning(request, 'Додавання групи відмінено')
+            return HttpResponseRedirect(reverse('groups'))
+        else:
+            messages.success(request, 'Групу успішно збережено')
+            return super(GroupAddView, self).post(request, *args, **kwargs)
+
+class GroupUpdateView(UpdateView):
+    template_name = 'students/universal_form.html'
+    form_class = GroupUpdateForm
+    model = Group
+
+    def get_success_url(self):
+        return reverse('groups')
+
+    def post(self, request, *args, **kwargs):
+
+        if request.POST.get('cancel_button'):
+            messages.warning(request, 'Редагування групи відмінено')
+            return HttpResponseRedirect(reverse('groups'))
+        else:
+            messages.success(request, 'Групу успішно збережено')
+            return super(GroupUpdateView, self).post(request, *args, **kwargs)
 
 class GroupDeleteView(DeleteView):
     model = Group

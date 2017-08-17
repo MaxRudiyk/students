@@ -46,7 +46,7 @@ def students_list(request):
 
 
 class StudentAddView(CreateView):
-    template_name = 'students/students_form.html'
+    template_name = 'students/universal_form.html'
     form_class = StudentAddForm
     model = Student
 
@@ -80,7 +80,7 @@ class StudentDeleteView(DeleteView):
 
 
 class StudentUpdateView(UpdateView):
-    template_name = 'students/students_form.html'
+    template_name = 'students/universal_form.html'
     form_class = StudentUpdateForm
     model = Student
 

@@ -53,7 +53,7 @@
         <td><a title="Редагувати" href="{% url 'groups_edit' group.id %}">{{ group.title }}</a></td>
         {% if group.leader %}
             <td>
-                <a title="Редагувати" href="{% url 'groups_edit' group.leader.id %}">{{ group.leader }}</a>
+                {{ group.leader }}
             </td>
         {% else %}
             <td>
