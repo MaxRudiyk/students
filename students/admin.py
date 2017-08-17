@@ -73,9 +73,8 @@ class GroupFormAdmin(ModelForm):
 
     def clean_leader(self):
         """Check if student is in the group."""
-        flag = False
         students = Student.objects.filter(student_group=self.instance)
-
+        flag = False
         if self.cleaned_data['leader'] is None:
             return self.cleaned_data['leader']
         
@@ -83,15 +82,14 @@ class GroupFormAdmin(ModelForm):
             raise ValidationError(u'Група порожня', code='invalid')
 
         for student in students:
-            if self.cleaned_data['leader'] != student:
-                #raise ValidationError(u'Студент не навчається в даній групі', code='invalid')
+
+            if self.cleaned_data['leader'] == student:
+                return self.cleaned_data['leader']
+            else: 
                 flag = True
-            return self.cleaned_data['leader']
 
         if flag:
             raise ValidationError(u'Студент не навчається в даній групі', code='invalid')
-        
-        #return self.cleaned_data['leader']
 
 
 class GroupAdmin(admin.ModelAdmin):
