@@ -1,0 +1,2 @@
+# students
+Django training project
