@@ -78,6 +78,9 @@ class GroupUpdateView(UpdateView):
             messages.success(request, 'Групу успішно збережено')
             return super(GroupUpdateView, self).post(request, *args, **kwargs)
 
+
+
+
 class GroupDeleteView(DeleteView):
     model = Group
     template_name = 'students/groups_confirm_delete.html'

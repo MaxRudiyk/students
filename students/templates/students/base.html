@@ -52,11 +52,11 @@
                     {% block status_message %}
                     {% if messages %}
                     {% for message in messages %}
-                    <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{message.tags}}{%endif%}" role='alert'>{{ message }}</div>   
+                    <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{message.tags}}{%endif%} message" role='alert'>{{ message }}</div>   
                     {% endfor %}   
                     {% endif %}
                     {% if request.GET.status_message %}
-                    <div class="alert alert-warning" role='alert'>{{ request.GET.status_message }}</div>          
+                    <div class="alert alert-warning message" role='alert'>{{ request.GET.status_message }}</div>          
                     {% endif %}      
                     {% endblock status_message %} 
                     <h2>{% block title %}{% endblock title %}</h2>
@@ -79,7 +79,7 @@
         <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="                            sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous">
         </script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-        <script src='{{ PORTAL_URL }}{% static "js/main.js" %}'></script>
+        <script src='{{ PORTAL_URL }}{% static "js/script.js" %}'></script>
         {% block extra_js %}{% endblock extra_js %}
     </body> 
 </html>

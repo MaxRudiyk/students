@@ -3,11 +3,12 @@
 from __future__ import unicode_literals
 
 from django import forms
-from ..models import Group, Student
 from crispy_forms.helper import FormHelper
 from django.core.urlresolvers import reverse
 from crispy_forms.layout import Submit
 from crispy_forms.bootstrap import FormActions
+
+from ..models import Group, Student
 
 class GroupUpdateForm(forms.ModelForm):
     
@@ -34,6 +35,26 @@ class GroupUpdateForm(forms.ModelForm):
             Submit('add_button', u'Зберегти', css_class="btn btn-primary"),
             Submit('cancel_button', u'Скасувати', css_class="btn btn-default"),
         )
+
+    def clean_leader(self):
+        """Check if student is in the group."""
+        students = Student.objects.filter(student_group=self.instance)
+        flag = False
+        if self.cleaned_data['leader'] is None:
+            return self.cleaned_data['leader']
+        
+        if not students.exists():
+            raise forms.ValidationError(u'Група порожня', code='invalid')
+
+        for student in students:
+
+            if self.cleaned_data['leader'] == student:
+                return self.cleaned_data['leader']
+            else: 
+                flag = True
+
+        if flag:
+            raise forms.ValidationError(u'Студент не навчається в даній групі', code='invalid')
 
 class GroupAddForm(forms.ModelForm):
     
