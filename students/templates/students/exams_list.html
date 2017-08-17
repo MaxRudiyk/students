@@ -36,7 +36,10 @@
                     <ul class="dropdown-menu" role="menu">
                         <li role="presentation"><a href="" role="menuitem" tabindex="-1">Редагувати</a></li>
                         <li role="presentation"><a href="" role="menuitem" tabindex="-1">Видалити</a></li>
-                        <li role="presentation"><a href="{% url 'exams_result' exam.exams_group exam.subject%}" role="menuitem" tabindex="-1">Результати</a></li>
+                        <li role="presentation"><a href="{% url 'exams_result' exam.exams_group exam.subject%}" role="menuitem" tabindex="-1">Результати</a></li>  
+                        {% comment %}
+                        <li role="presentation"><a href="#" role="menuitem" tabindex="-1">Результати</a></li>   
+                        {% endcomment %}
                     </ul>
                 </div>
             </td>

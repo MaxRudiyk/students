@@ -12,6 +12,7 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
         <link rel="stylesheet" href="{{ PORTAL_URL }}{% static "css/style.css" %}">
         {% block extra_css %}{% endblock extra_css %}
+        <link rel="shortcut icon" type='image/png' href="{% static "img/favicon.ico" %}">
     </head>
 
     <body>
@@ -56,7 +57,7 @@
                     {% endfor %}   
                     {% endif %}
                     {% if request.GET.status_message %}
-                    <div class="alert alert-warning message" role='alert'>{{ request.GET.status_message }}</div>          
+                    <div class="alert alert-warning message" role='alert' >{{ request.GET.status_message }}</div>          
                     {% endif %}      
                     {% endblock status_message %} 
                     <h2>{% block title %}{% endblock title %}</h2>

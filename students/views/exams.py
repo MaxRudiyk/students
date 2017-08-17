@@ -19,7 +19,7 @@ def exams_result(request, param1, param2): # Param1 - Назва Групи Para
 	results_list = Result_exam.objects.filter(students__student_group__title='%s' % param1).filter(subject__subject='%s' % param2)
 	results_list.order_by('students')
 	return render(request, 'students/results_list.html', {'results_list': results_list})
-    #return HttpResponse('<h1>Result for %s %s</h1>' % (param1, param2))
+   	#return HttpResponse('<h1>Result for %s %s</h1>' % (param1, param2))
 
 def exams_add(request):
     return HttpResponse('<h1>Exam Add Form</h1>')
