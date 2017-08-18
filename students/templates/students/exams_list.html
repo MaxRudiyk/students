@@ -26,20 +26,17 @@
         {% for exam in exams_list %}
         <tr>
             <td>{{ forloop.counter }}</td>
-            <td><a title="Редагувати" href="#">{{ exam.subject }}</a></td>
-            <td><a title="Редагувати" href="#">{{ exam.teacher_name }}</a></td>
-            <td><a title="Редагувати" href="#">{{ exam.exams_group }}</a></td>
-            <td><a title="Редагувати" href="#">{{ exam.date_of_exam }}</a></td>
+            <td>{{ exam.subject }}</td>
+            <td>{{ exam.teacher_name }}</td>
+            <td>{{ exam.exams_group }}</td>
+            <td>{{ exam.date_of_exam }}</td>
             <td>
                 <div class="dropdown">
                     <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Дія <span class="caret"></span></button>
                     <ul class="dropdown-menu" role="menu">
-                        <li role="presentation"><a href="" role="menuitem" tabindex="-1">Редагувати</a></li>
-                        <li role="presentation"><a href="" role="menuitem" tabindex="-1">Видалити</a></li>
+                        <li role="presentation"><a href="{% url 'exams_edit' exam.id %}" role="menuitem" tabindex="-1">Редагувати</a></li>
+                        <li role="presentation"><a href="{% url 'exams_delete' exam.id %}" role="menuitem" tabindex="-1">Видалити</a></li>
                         <li role="presentation"><a href="{% url 'exams_result' exam.exams_group exam.subject%}" role="menuitem" tabindex="-1">Результати</a></li>  
-                        {% comment %}
-                        <li role="presentation"><a href="#" role="menuitem" tabindex="-1">Результати</a></li>   
-                        {% endcomment %}
                     </ul>
                 </div>
             </td>
@@ -50,6 +47,8 @@
 {% else %}
 <h1>Іспитів не додано</h1>
 {% endif %} 
-{% endblock content %} 
+{% include "students/pagination.html" %}
+{% endblock content %}
+
 
 

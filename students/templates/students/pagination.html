@@ -1,3 +1,6 @@
+{% comment %}
+Students pagination
+{% endcomment %}
 {% if  students.has_other_pages%}
 {% with  order_by=request.GET.order_by reverse=request.GET.reverse%}
 <nav>
@@ -14,6 +17,9 @@
 {% endwith %}
 {% endif %}
 
+{% comment %}
+Groups pagination
+{% endcomment %}
 {% if  groups_list.has_other_pages%}
 {% with  order_by=request.GET.order_by reverse=request.GET.reverse%}
 <nav>
@@ -30,7 +36,10 @@
 {% endwith %}
 {% endif %}
 
-<!--{% if  exams.has_other_pages%}
+{% comment %}
+Exams pagination
+{% endcomment %}
+{% if  exams_list.has_other_pages%}
 <nav>
     <ul class="pagination">
         <li><a href="{% url 'exams' %}?page=1">&laquo;</a></li>
@@ -40,5 +49,5 @@
         <li><a href="{% url 'exams' %}?page={{ exams.paginator.num_pages }}">&raquo;</a></li>
     </ul>
 </nav>
-{% endif %}-->
+{% endif %}
 

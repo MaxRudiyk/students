@@ -65,7 +65,16 @@ class StudentAddView(CreateView):
 
 class StudentDeleteView(DeleteView):
     model = Student
-    template_name = 'students/students_confirm_delete.html'
+    template_name = 'students/confirm_delete.html'
+    context_object_name = 'context'
+
+    def get_context_data(self, **kwargs):
+        context = super(StudentDeleteView, self).get_context_data(**kwargs)
+        context['question'] = u'Ви дійсно бажаєте видалити студента'
+        context['title'] = u'Видалити студента'
+        context['context_url'] = 'students_delete'
+        context['context_id'] = self.kwargs['pk']
+        return context
 
     def get_success_url(self):
         return reverse('home')

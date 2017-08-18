@@ -15,12 +15,14 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-from students.views import students, groups, journal, exams, contact_admin
-from .settings import MEDIA_ROOT, DEBUG
 from django.views.static import serve
+
+from .settings import MEDIA_ROOT, DEBUG
+from students.views import students, groups, journal, exams, contact_admin
 from students.views.contact_admin import ContactView
-from students.views.students import StudentUpdateView, StudentAddView, StudentDeleteView
-from students.views.groups import GroupDeleteView, GroupAddView, GroupUpdateView
+from students.views.students import StudentAddView, StudentUpdateView, StudentDeleteView
+from students.views.groups import GroupAddView, GroupUpdateView, GroupDeleteView
+from students.views.exams import ExamAddView, ExamUpdateView, ExamDeleteView
 
 urlpatterns = [
     # Students urls
@@ -39,9 +41,9 @@ urlpatterns = [
 
     # Exams urls
     url(r'^exams/$', exams.exams_list, name='exams'),
-    url(r'^exams/add/$', exams.exams_add, name='exams_add'),
-    url(r'^exams/(?P<eid>\d+)/edit/$', exams.exams_edit, name='exams_edit'),
-    url(r'^exams/(?P<eid>\d+)/delete/$', exams.exams_delete, name='exams_delete'),
+    url(r'^exams/add/$', ExamAddView.as_view(), name='exams_add'),
+    url(r'^exams/(?P<pk>\d+)/edit/$', ExamUpdateView.as_view(), name='exams_edit'),
+    url(r'^exams/(?P<pk>\d+)/delete/$', ExamDeleteView.as_view(), name='exams_delete'),
     url(r'^exams/result/(?P<param1>\D+\d+)/(?P<param2>\D+)/$', exams.exams_result, name='exams_result'),
 
     # Journal urls
