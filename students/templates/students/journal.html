@@ -2,156 +2,58 @@
 
 {% load static from staticfiles %}
 
-{% block meta_title %}Журнал{% endblock meta_title %}   
+{% block meta_title %}Облік Відвідування{% endblock meta_title %}   
 {% block title %}Облік Відвідування{% endblock title %}
 {% block content %}
-<div><p id="mouth" ><a href="#" title="Попередній">&laquo;</a> Вересень <a href="#" title="Наступний">&raquo;</a></p></div>
+
+{% if not students %}
+
+<div class="alert alert-warning">Поки немає студентів в базі <a href="{% url 'students_add'%}">додайтe</a> першого</div>
+
+{% else %}
+<p id="journal-nav" class="text-center">
+    <a href="?month={{ prev_month }}" title="Попередній місяць">&larr;</a>
+    <strong>{{ month_verbose }} {{ year }}</strong>
+    <a href="?month{{ next_month }}" title="Наступний місяць">&rarr;</a>
+</p>
 <!-- Journal List -->
-<table class="table table-hover table-striped">
+<table class="table table-hover table-striped table-bordered" id="students-journal">
     <thead>
-        <tr>
-            <th>№</th>
-            <th>Студент</th>
-            <th>Чт 1</th>
-            <th>Пт 2</th>
-            <th>Сб 3</th>
-            <th>Нд 4</th>
-            <th>Пн 5</th>
-            <th>Вт 6</th>
-            <th>Ср 7</th>
-            <th>Чт 8</th>
-            <th>Пт 9</th>
-            <th>Сб 10</th>
-            <th>Нд 11</th>
-            <th>Пн 12</th>
-            <th>Вт 13</th>
-            <th>Ср 14</th>
-            <th>Чт 15</th>
-            <th>Пт 16</th>
-            <th>Сб 17</th>
-            <th>Нд 18</th>
-            <th>Пн 19</th>
-            <th>Вт 20</th>
-            <th>Ср 21</th>
-            <th>Чт 22</th>
-            <th>Пт 23</th>
-            <th>Сб 24</th>
-            <th>Нд 25</th>
-            <th>Пн 26</th>
-            <th>Вт 27</th>
-            <th>Ср 28</th>
-            <th>Чт 29</th>
-            <th>Пт 30</th>
-            <th>Сб 31</th>
-        </tr>   
+        <tr class="header">
+            <th class="num"></th>
+            <th class="name"></th>
+            {% for day in month_header %}
+            <th class="day-header">{{ day.verbose }} <br> {{ day.day }} </th>    
+            {% endfor %}
+        </tr>
     </thead>
-    <tbody> 
-        <tr>
-            <td>1</td>
-            <td>Рудюк Максим</td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-        </tr>
-        <tr>
-            <td>2</td>
-            <td>Перевалова Анастасія</td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-        </tr>
-        <tr>
-            <td>3</td>
-            <td>Нікітчин Віталій</td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-            <td><input type="checkbox" checked></td>
-        </tr>
-    </tbody>
+    <tbody>
+        {% csrf_token %}
+        {% for student in students %}
+            <tr>
+                <td>
+                    {% if is_paginated %}
+                        {{ page_obj.start_index|add:forloop.counter|add:"-1" }}
+                    {% else %}
+                        {{ forloop.counter }}
+                    {% endif %}
+                </td>
+                <td>
+                    <a title="Редагувати" target="_blank" href="{% url 'students_edit' student.id %}">{{ student.fullname }}</a>
+                </td>
+
+                {% for day in student.days %}
+                    <td class="day-box">
+                        <input type="checkbox" data-student-id="{{ student.id }}" date-date="{{ day.date }}" data-url="{{ student.update_url }}" value="1"{% if day.present %} checked="checked" {% endif %}>
+                    </td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </tbody>    
 </table>
+{% endif %}
+{% with object_list=students %}
+    {% include "students/pagination.html" %}
+{% endwith %}
 <!-- End Main Page Content -->
 {% endblock content %}

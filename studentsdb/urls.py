@@ -23,6 +23,7 @@ from students.views.contact_admin import ContactView
 from students.views.students import StudentAddView, StudentUpdateView, StudentDeleteView
 from students.views.groups import GroupAddView, GroupUpdateView, GroupDeleteView
 from students.views.exams import ExamAddView, ExamUpdateView, ExamDeleteView
+from students.views.journal import JournalView
 
 urlpatterns = [
     # Students urls
@@ -47,7 +48,7 @@ urlpatterns = [
     url(r'^exams/result/(?P<param1>\D+\d+)/(?P<param2>\D+)/$', exams.exams_result, name='exams_result'),
 
     # Journal urls
-    url(r'^journal/$', journal.journal_list, name='journal'),
+    url(r'^journal/$', JournalView.as_view(), name='journal'),
 
     url(r'^contact-admin/$', ContactView.as_view(), name='contact_admin'),
 

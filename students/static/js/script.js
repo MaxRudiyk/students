@@ -1,7 +1,7 @@
 $( document ).ready(function(){
-	fadeInMessage();
+    fadeInMessage();
 });
 
 function fadeInMessage(){
-	$(".message").fadeOut(5000)
+    $(".message").fadeOut(5000);
 }
