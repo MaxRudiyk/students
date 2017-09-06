@@ -1,6 +1,5 @@
 {% comment %}
 Students pagination
-{% endcomment %}
 {% if  students.has_other_pages%}
 {% with  order_by=request.GET.order_by reverse=request.GET.reverse%}
 <nav>
@@ -17,9 +16,7 @@ Students pagination
 {% endwith %}
 {% endif %}
 
-{% comment %}
 Groups pagination
-{% endcomment %}
 {% if  groups_list.has_other_pages%}
 {% with  order_by=request.GET.order_by reverse=request.GET.reverse%}
 <nav>
@@ -36,9 +33,7 @@ Groups pagination
 {% endwith %}
 {% endif %}
 
-{% comment %}
 Exams pagination
-{% endcomment %}
 {% if  exams_list.has_other_pages%}
 <nav>
     <ul class="pagination">
@@ -50,7 +45,7 @@ Exams pagination
     </ul>
 </nav>
 {% endif %}
-
+{% endcomment %}
 
 {% if is_paginated %}
 {% with  order_by=request.GET.order_by revers=request.GET.reverse %}

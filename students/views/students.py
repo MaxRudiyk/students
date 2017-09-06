@@ -5,45 +5,42 @@ from __future__ import unicode_literals
 from django.shortcuts import render
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse, HttpResponseRedirect, Http404, JsonResponse
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core import serializers
 from django.template.loader import render_to_string
 from django.contrib import messages
-from ..models import Student, Group
-from datetime import datetime
 from django.views.generic import UpdateView, CreateView, DeleteView
+from django.views.generic.base import TemplateView
 from django.views.generic.edit import FormView
+
+from datetime import datetime
+
+from ..models import Student, Group
 from ..forms import StudentUpdateForm, StudentAddForm
+from ..util import paginate
 
 # Create your views here.
 
 # Views for Students
+class StudentList(TemplateView):
+    template_name = 'students/students_list.html'
 
-def students_list(request):
+    def get_context_data(self, **kwargs):
+        context = super(StudentList, self).get_context_data(**kwargs)
 
-    students = Student.objects.all()
+        students = Student.objects.all()
 
-    # Order students list
-    order_by = request.GET.get('order_by', '') # Витягуємо параметр order_by з GET словника
-    reverse = request.GET.get('reverse', '') # Витягуємо параметр reverse з GET словника
+        # Order students list
+        order_by = self.request.GET.get('order_by', '') # Витягуємо параметр order_by з GET словника
+        reverse = self.request.GET.get('reverse', '') # Витягуємо параметр reverse з GET словника
 
-    if order_by in ('last_name', 'first_name', 'ticket', 'id'):
-        students = students.order_by(order_by)
-        if reverse == '1':
-            students = students.reverse()
+        if order_by in ('last_name', 'first_name', 'ticket', 'id'):
+            students = students.order_by(order_by)
+            if reverse == '1':
+                students = students.reverse()
 
-    # Paginate students
-    paginator = Paginator(students, 3)
-    page = request.GET.get('page') # Витягуємо параметр page з GET словника
-    try: 
-        students = paginator.page(page)
-    except PageNotAnInteger:
-        students = paginator.page(1)
-    except EmptyPage:
-        students = paginator.page(paginator.num_pages)
+        context = paginate(students, 3, self.request, context, var_name='students')
 
-    return render(request, 'students/students_list.html', {'students': students})
-
+        return context
 
 class StudentAddView(CreateView):
     template_name = 'students/universal_form.html'

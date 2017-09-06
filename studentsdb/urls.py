@@ -20,25 +20,23 @@ from django.views.static import serve
 from .settings import MEDIA_ROOT, DEBUG
 from students.views import students, groups, journal, exams, contact_admin
 from students.views.contact_admin import ContactView
-from students.views.students import StudentAddView, StudentUpdateView, StudentDeleteView
-from students.views.groups import GroupAddView, GroupUpdateView, GroupDeleteView
+from students.views.students import StudentAddView, StudentUpdateView, StudentDeleteView, StudentList
+from students.views.groups import GroupAddView, GroupUpdateView, GroupDeleteView, GroupList
 from students.views.exams import ExamAddView, ExamUpdateView, ExamDeleteView
 from students.views.journal import JournalView
 
 urlpatterns = [
     # Students urls
-    url(r'^$', students.students_list, name='home'),
+    url(r'^$', StudentList.as_view(), name='home'),
     url(r'^students/add/$', StudentAddView.as_view(), name='students_add'),
     url(r'^students/(?P<pk>\d+)/edit/$', StudentUpdateView.as_view(), name='students_edit'),
     url(r'^students/(?P<pk>\d+)/delete/$', StudentDeleteView.as_view(), name='students_delete'),
-    #url(r'^students/(?P<sid>\d+)/delete/$', students.student_delete, name='students_delete'),
     
     # Groups urls
-    url(r'^groups/$', groups.groups_list, name='groups'),
+    url(r'^groups/$', GroupList.as_view(), name='groups'),
     url(r'^groups/add/$', GroupAddView.as_view(), name='groups_add'),
     url(r'^groups/(?P<pk>\d+)/edit/$', GroupUpdateView.as_view(), name='groups_edit'),
     url(r'^groups/(?P<pk>\d+)/delete/$', GroupDeleteView.as_view(), name='groups_delete'),
-    #url(r'^groups/(?P<gid>\d+)/delete/$', groups.groups_delete, name='groups_delete'),
 
     # Exams urls
     url(r'^exams/$', exams.exams_list, name='exams'),

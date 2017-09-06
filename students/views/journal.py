@@ -22,10 +22,10 @@ class JournalView(TemplateView):
         context = super(JournalView, self).get_context_data(**kwargs)
 
         if self.request.GET.get('month'):
-            month = datetime.strftime(self.request.GET['month'], '%Y-%m-%d').date()
+            month = datetime.strptime(self.request.GET['month'], '%Y-%m-%d').date()
 
         else:
-            today = datatime.today()
+            today = datetime.today()
             month = date(today.year, today.month, 1)
 
         # обчислюємо поточний рік, попередій і наступні місяці
@@ -40,17 +40,11 @@ class JournalView(TemplateView):
         # також поточний місяць
         # змінну cur_month використаємо пізніше в пагінації
         # month_verbose в помісячній навігації
-        context['cur_month'] = '2017-08-01'
-        context['month_verbose'] = u'Серпень'
+        context['cur_month'] = month.strftime('%Y-%m-%d')
 
-        # тут буде обчислюватись список днів у місяці,
-        # а поки напишемо статично
-        context['month_header'] = [
-            {'day':1, 'verbose': Пн},
-            {'day':2, 'verbose': Вт},
-            {'day':3, 'verbose': Ср},
-            {'day':4, 'verbose': Чт},
-            {'day':5, 'verbose': Пт}]
+        myear, mmonth = month.year, month.month
+        number_of_days = monthrange(myear, mmonth)[1]
+        context['month_header'] = [{'day': d, 'verbose': day_abbr[weekday(myear, mmonth, d)][:2]}for d in range(1, number_of_days+1)]
 
         # витягуємо усіх студентів відсортований по прізвищу
         queryset = Student.objects.order_by('last_name')
@@ -60,21 +54,27 @@ class JournalView(TemplateView):
         students = []
 
         for student in queryset:
-            # TODO: витягуємо журнал для студента і вибраного місяця
-            # набиваємо дні для студента
+            try:
+                journal = MouthJournal.objects.get(student=student, date=month)
+            except Exception:
+                journal = None
+
+            # fill in days presence list for current student
             days = []
-            for day in range(1, 31):
+            for day in range(1, number_of_days+1):
                 days.append({
                     'day': day,
-                    'present': True,
-                    'date': date(2017, 8, day).strftime('%Y-%m-%d'),})
+                    'present': journal and getattr(journal, 'present_day%d' % day, False) or False,
+                    'date': date(myear, mmonth, day).strftime('%Y-%m-%d'),
+                    })
 
             students.append({
                 'fullname': u'%s %s' % (student.last_name, student.first_name),
                 'days': days,
                 'id': student.id,
-                'update_url': update_url,})
+                'update_url': update_url,
+                })
 
-            context = paginate(students, 10, self.request, context, var_name='students')
+            context = paginate(students, 3, self.request, context, var_name='students')
 
-            return context 
+        return context 

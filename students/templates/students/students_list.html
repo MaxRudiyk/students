@@ -84,7 +84,9 @@
 {% else %}
 <h1>Студентів не додано </h1>
 {% endif %}
-{% include "students/pagination.html" %}
+{% with object_list=students %}
+    {% include "students/pagination.html" %}
+{% endwith %}
 {% endblock content %} 
 
 

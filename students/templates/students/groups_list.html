@@ -9,7 +9,9 @@
 <a class="btn btn-primary" href="{% url 'groups_add' %}">Додати Групу</a>
 
 <!-- Groups List -->
-{% if groups_list %}
+{% comment %}
+{% if context %}
+{% endcomment %}
 <table class="table table-hover table-striped">
     {% with order_by=request.GET.order_by reverse=request.GET.reverse%}
     <thead>
@@ -74,7 +76,11 @@
     {% endfor %}
     </tbody>
 </table>
+{% comment %}
 {% else %} <h1>Груп ще не додано</h1>
 {% endif %}
-{% include "students/pagination.html" %}
+{% endcomment %}
+{% with object_list=groups_list %}
+    {% include "students/pagination.html" %}
+{% endwith %}
 {% endblock content %}

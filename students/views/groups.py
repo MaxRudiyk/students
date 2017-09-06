@@ -6,43 +6,38 @@ from django.http import HttpResponse, HttpResponseRedirect, Http404, JsonRespons
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core import serializers
 from django.views.generic import UpdateView, CreateView, DeleteView
+from django.views.generic.base import TemplateView
 from django.contrib import messages
 from django.core.urlresolvers import reverse
 
 from ..models import Group, Student
 from ..forms import GroupAddForm, GroupUpdateForm
+from ..util import paginate
 # Create your views here.
 
 # Views for Groups
 
-def groups_list(request):
+class GroupList(TemplateView):
+    template_name = 'students/groups_list.html'
 
-    groups = Group.objects.all()
+    def get_context_data(self, **kwargs):
+        context = super(GroupList, self).get_context_data(**kwargs)
 
-    # Order groups list
-    order_by = request.GET.get('order_by', '') # Витягуємо параметр order_by з GET словника
-    reverse = request.GET.get('reverse', '') # Витягуємо параметр reverse з GET словника
+        groups = Group.objects.all()
 
-    if order_by in ('title', 'leader', 'id'):
-        groups = groups.order_by(order_by)
-        if reverse == '1':
-            groups = groups.reverse()
+        # Order groups list
+        order_by = self.request.GET.get('order_by', '') # Витягуємо параметр order_by з GET словника
+        reverse = self.request.GET.get('reverse', '') # Витягуємо параметр reverse з GET словника
 
-    # Paginate students
-    if groups:
-        paginator = Paginator(groups, 3)
-        page = request.GET.get('page') # Витягуємо параметр page з GET словника
-        try: 
-            groups = paginator.page(page)
-        except PageNotAnInteger:
-            groups = paginator.page(1)
-        except EmptyPage:
-            groups = paginator.page(paginator.num_pages)
-    else:  
+        if order_by in ('title', 'leader', 'id'):
+            groups = groups.order_by(order_by)
+            if reverse == '1':
+                groups = groups.reverse()
 
-        groups_list = ''
-        
-    return render(request, 'students/groups_list.html', {'groups_list': groups})
+        context = paginate(groups, 3, self.request, context, var_name='groups_list')
+
+        return context
+
 
 class GroupAddView(CreateView):
     template_name = 'students/universal_form.html'
