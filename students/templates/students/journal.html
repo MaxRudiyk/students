@@ -44,7 +44,7 @@
 
                 {% for day in student.days %}
                     <td class="day-box">
-                        <input type="checkbox" data-student-id="{{ student.id }}" date-date="{{ day.date }}" data-url="{{ student.update_url }}" value="1"{% if day.present %} checked="checked" {% endif %}>
+                        <input type="checkbox" data-student-id="{{ student.id }}" data-date="{{ day.date }}" data-url="{{ student.update_url }}" value="1"{% if day.present %} checked="checked" {% endif %}>
                     </td>
                 {% endfor %}
             </tr>
