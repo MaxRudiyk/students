@@ -48,3 +48,6 @@ th.day-header {
     text-align: center !important;
 }
 
+#ajax-progress-indicator, #journal-error {
+    display: none;
+}

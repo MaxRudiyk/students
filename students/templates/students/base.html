@@ -27,8 +27,11 @@
                     <strong>Група:</strong>
                     <select name="" id="">
                         <option value="">Усі Групи</option>
-                        <option value="">АТ-22</option>
-                        <option value="">АІ-25</option>
+                        {% for group in GROUPS %}
+                            <option value="{{ group.id }}"{% if group.selected %}selected=1{% endif %}>
+                                {{ group.title }}{% if group.leader %}, {{ group.leader }} {% endif %}
+                            </option>
+                        {% endfor %}
                     </select>
                 </div>
             </div>
@@ -84,3 +87,4 @@
         {% block extra_js %}{% endblock extra_js %}
     </body> 
 </html>
+Exec=/usr/bin/google-chrome-stable %U

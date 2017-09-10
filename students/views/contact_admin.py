@@ -14,6 +14,7 @@ from django.views.generic.edit import FormView
 
 from studentsdb.settings import ADMIN_EMAIL
 
+
 class ContactForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
@@ -33,9 +34,6 @@ class ContactForm(forms.Form):
 
         self.helper.add_input(Submit('send_btn', u'Надіслати'))
 
-
-
-    
     from_email = forms.EmailField(label=u'Ваша емейл адреса')
     subject = forms.CharField(label=u'Заголовок листа', max_length=128)
     message = forms.CharField(label=u'Текст повідомлення', max_length=2560, widget=forms.Textarea)

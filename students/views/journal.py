@@ -12,6 +12,7 @@ from django.http import JsonResponse
 
 from ..models import Student, MouthJournal
 from ..util import paginate
+
 # Create your views here.
 
 # Views for Students
@@ -48,7 +49,10 @@ class JournalView(TemplateView):
         context['month_header'] = [{'day': d, 'verbose': day_abbr[weekday(myear, mmonth, d)][:2]}for d in range(1, number_of_days+1)]
 
         # витягуємо усіх студентів відсортований по прізвищу
-        queryset = Student.objects.order_by('last_name')
+        if kwargs.get('pk'):
+            queryset = [Student.objects.get(pk=kwargs['pk'])]
+        else:
+            queryset = Student.objects.order_by('last_name')
 
         update_url = reverse('journal')
 
@@ -82,7 +86,7 @@ class JournalView(TemplateView):
 
     def post(self, request, *args, **kwargs):
 
-        data = self.request.POST
+        data = request.POST
 
         current_date = datetime.strptime(data['date'], '%Y-%m-%d').date()
         month = date(current_date.year, current_date.month, 1)

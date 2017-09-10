@@ -71,7 +71,7 @@
                 <div class="dropdown">
                     <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Дія <span class="caret"></span></button>
                     <ul class="dropdown-menu" role="menu">
-                        <li role="presentation"><a href="/journal/1" role="menuitem" tabindex="-1">Відвідування</a></li>
+                        <li role="presentation"><a href="{% url 'journal' student.id %}" role="menuitem" tabindex="-1">Відвідування</a></li>
                         <li role="presentation"><a href="{% url 'students_edit' student.id %}" role="menuitem" tabindex="-1">Редагувати</a></li>
                         <li role="presentation"><a href="{% url 'students_delete' student.id %}" role="menuitem" tabindex="-1">Видалити</a></li>
                     </ul>

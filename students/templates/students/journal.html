@@ -11,6 +11,13 @@
 <div class="alert alert-warning">Поки немає студентів в базі <a href="{% url 'students_add'%}">додайтe</a> першого</div>
 
 {% else %}
+
+<div class="alert alert-warning">Зміни в журнал зберігаються автоматично при кожному кліку по чекбоксу
+    <span id="ajax-progress-indicator">Йде збереження...</span>
+</div>
+
+<div class="alert alert-danger" id="journal-error">Виникла помилка</div>
+
 <p id="journal-nav" class="text-center">
     <a href="?month={{ prev_month }}" title="Попередній місяць">&larr;</a>
     <strong>{{ month_verbose }} {{ year }}</strong>
